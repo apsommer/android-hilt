@@ -17,7 +17,11 @@
 package com.example.android.hilt
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp // annotation triggers Hilt code generation. It creates an app-level container that
+// is attached to the app lifecycle. This is the parent container for the app, meaning any dependencies
+// that it provides can also be accessed by child containers.
 class LogApplication : Application() {
 
     lateinit var serviceLocator: ServiceLocator
