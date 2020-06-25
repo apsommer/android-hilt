@@ -17,8 +17,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt' // enable kotlin in this app module
+apply plugin: 'dagger.hilt.android.plugin' // use hilt gradle plugin defined in root/build.gradle in this app module
 
 android {
     compileSdkVersion 29
