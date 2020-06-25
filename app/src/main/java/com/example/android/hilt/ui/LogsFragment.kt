@@ -30,15 +30,22 @@ import com.example.android.hilt.R
 import com.example.android.hilt.data.Log
 import com.example.android.hilt.data.LoggerLocalDataSource
 import com.example.android.hilt.util.DateFormatter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Fragment that displays the database logs.
  */
+
+@AndroidEntryPoint // annotation triggers Hilt to create a dependencies container attached to this
+// fragment's lifecycle that can hold its required dependencies.
 class LogsFragment : Fragment() {
 
-    private lateinit var logger: LoggerLocalDataSource
-    private lateinit var dateFormatter: DateFormatter
+    // @Inject tells Hilt to inject these dependencies. This is field injection. Done in the onAttach
+    // lifecycle method with instances built in the generated LogFragment's container.
 
+    @Inject lateinit var logger: LoggerLocalDataSource
+    @Inject lateinit var dateFormatter: DateFormatter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -49,33 +56,22 @@ class LogsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_logs, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             setHasFixedSize(true)
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        populateFields(context)
-    }
-
-    private fun populateFields(context: Context) {
-        logger = (context.applicationContext as LogApplication).serviceLocator.loggerLocalDataSource
-        dateFormatter =
-            (context.applicationContext as LogApplication).serviceLocator.provideDateFormatter()
-    }
+    // onAttach > populateFields() method no longer needed. These fields are injected by Hilt.
 
     override fun onResume() {
         super.onResume()
 
         logger.getAllLogs { logs ->
-            recyclerView.adapter =
-                LogsViewAdapter(
-                    logs,
-                    dateFormatter
-                )
+            recyclerView.adapter = LogsViewAdapter(logs, dateFormatter)
         }
     }
 }
