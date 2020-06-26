@@ -19,11 +19,15 @@ package com.example.android.hilt.util
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * String formatter for the log dates.
  */
-class DateFormatter {
+
+// @Inject using "constructor injection". This is required since we inject this object as field in
+// LogsFragment, it tells Hilt how to inject that field.
+class DateFormatter @Inject constructor() {
 
     @SuppressLint("SimpleDateFormat")
     private val formatter = SimpleDateFormat("d MMM yyyy HH:mm:ss")
