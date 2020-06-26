@@ -38,7 +38,7 @@ import javax.inject.Inject
  */
 
 @AndroidEntryPoint // annotation triggers Hilt to create a dependencies container attached to this
-// fragment's lifecycle that can hold its required dependencies.
+// fragment's lifecycle that can hold its required dependencies
 class LogsFragment : Fragment() {
 
     // @Inject tells Hilt to inject these dependencies. This is field injection. Done in the onAttach
