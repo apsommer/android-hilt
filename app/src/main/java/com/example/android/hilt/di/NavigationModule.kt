@@ -12,5 +12,6 @@ import dagger.hilt.android.components.ActivityComponent
 abstract class NavigationModule {
 
     @Binds // @Binds is used for interfaces, the return type is the interface, the function is passed an implementation
+    // this function has not been scoped to this activity container (using Singleton), a new object will be returned on each call
     abstract fun bindNavigator(impl: AppNavigatorImpl): AppNavigator
 }
