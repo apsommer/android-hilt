@@ -20,18 +20,25 @@ import androidx.fragment.app.FragmentActivity
 import com.example.android.hilt.R
 import com.example.android.hilt.ui.ButtonsFragment
 import com.example.android.hilt.ui.LogsFragment
+import javax.inject.Inject
 
 /**
  * Navigator implementation.
  */
-class AppNavigatorImpl(private val activity: FragmentActivity) : AppNavigator {
+
+// this class can be constructor injected because hilt has a built-in "fragment container", the
+// lifecyle of the fragment container will be handled automatically
+class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivity) : AppNavigator {
 
     override fun navigateTo(screen: Screens) {
+
+        // swap the fragments
         val fragment = when (screen) {
             Screens.BUTTONS -> ButtonsFragment()
             Screens.LOGS -> LogsFragment()
         }
 
+        // display the chosen fragment
         activity.supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, fragment)
             .addToBackStack(fragment::class.java.canonicalName)
