@@ -29,17 +29,25 @@ import com.example.android.hilt.data.LoggerLocalDataSource
 import com.example.android.hilt.di.NavigationModule
 import com.example.android.hilt.navigator.AppNavigator
 import com.example.android.hilt.ui.MainActivity
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.containsString
 import org.junit.After
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
 // Hilt automatically generates a new set of components for each test!
 
-
 @RunWith(AndroidJUnit4::class)
+@HiltAndroidTest // @HiltAndroidTest generates the Hilt components needed for each Hilt test
 class AppTest {
+
+    // stub required to connect Hilt to existing Android testing framework, this enables injections as needed
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @After
     fun tearDown() {
