@@ -35,6 +35,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
+// Hilt automatically generates a new set of components for each test!
+
+
 @RunWith(AndroidJUnit4::class)
 class AppTest {
 
