@@ -28,15 +28,15 @@ import javax.inject.Singleton
  */
 
 // constructor injection required since this object is field injected in LogsFragment
-@Singleton // scopes this class to the app level, always providing the same object
-class LoggerLocalDataSource @Inject constructor(private val logDao: LogDao) {
+// @Singleton scopes this class to the app level, always providing the same object - annotation not needed (but allowed) since defined in the module
+class LoggerLocalDataSource @Inject constructor(private val logDao: LogDao): LoggerDataSource {
 
     private val executorService: ExecutorService = Executors.newFixedThreadPool(4)
     private val mainThreadHandler by lazy {
         Handler(Looper.getMainLooper())
     }
 
-    fun addLog(msg: String) {
+    override fun addLog(msg: String) {
         executorService.execute {
             logDao.insertAll(
                 Log(
@@ -47,14 +47,14 @@ class LoggerLocalDataSource @Inject constructor(private val logDao: LogDao) {
         }
     }
 
-    fun getAllLogs(callback: (List<Log>) -> Unit) {
+    override fun getAllLogs(callback: (List<Log>) -> Unit) {
         executorService.execute {
             val logs = logDao.getAll()
             mainThreadHandler.post { callback(logs) }
         }
     }
 
-    fun removeLogs() {
+    override fun removeLogs() {
         executorService.execute {
             logDao.nukeTable()
         }

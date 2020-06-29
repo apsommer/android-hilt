@@ -28,7 +28,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.hilt.LogApplication
 import com.example.android.hilt.R
 import com.example.android.hilt.data.Log
+import com.example.android.hilt.data.LoggerDataSource
 import com.example.android.hilt.data.LoggerLocalDataSource
+import com.example.android.hilt.di.DatabaseLogger
+import com.example.android.hilt.di.InMemoryLogger
 import com.example.android.hilt.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -44,7 +47,8 @@ class LogsFragment : Fragment() {
     // @Inject tells Hilt to inject these dependencies. This is field injection. Done in the onAttach
     // lifecycle method with instances built in the generated LogFragment's container.
 
-    @Inject lateinit var logger: LoggerLocalDataSource
+    @InMemoryLogger // custom qualifier defined in module (can be swapped to @DatabaseLogger and all works fine)
+    @Inject lateinit var logger: LoggerDataSource // inject interface
     @Inject lateinit var dateFormatter: DateFormatter
     private lateinit var recyclerView: RecyclerView
 
