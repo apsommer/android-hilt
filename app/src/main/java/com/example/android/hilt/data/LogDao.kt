@@ -16,6 +16,7 @@
 
 package com.example.android.hilt.data
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -25,6 +26,14 @@ import androidx.room.Query
  */
 @Dao
 interface LogDao {
+
+    // expose to content provider
+    @Query("SELECT * FROM logs ORDER BY id DESC")
+    fun selectAllLogsCursor(): Cursor
+
+    // expose to content provider
+    @Query("SELECT * FROM logs WHERE id = :id")
+    fun selectLogById(id: Long): Cursor
 
     @Query("SELECT * FROM logs ORDER BY id DESC")
     fun getAll(): List<Log>
